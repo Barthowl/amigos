@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Amigos</string>
+    <string name="Importar">Importar contactos</string>
+    <string name="Llamadas">Llamadas</string>
+    <string name="fabañadir">Añadir</string>
+    <string name="fabeditar">Editar</string>
+    <string name="fabeliminar">Eliminar</string>
+    <string name="titulo">Permisos contactos</string>
+    <string name="titulo2">Permisos historial llamadas</string>
+    <string name="titulo3">Permisos estado teléfono</string>
+    <string name="mensaje">Necesito el permiso de contactos para poder mostrarte la lista.</string>
+    <string name="mensaje2">Necesito el permiso de leer el historial de llamadas para mostrarte la lista.</string>
+    <string name="mensaje3">Necesito el permiso de leer el estado del teléfono para leer las llamadas y mostrarlas en la lista.</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="btvolver">volver</string>
+    <string name="explicacionimportar">Pulsa sobre un contacto para importarlo</string>
+    <string name="importar">Va a importar el siguiente contacto:</string>
+    <string name="btimportar">Importar contacto</string>
+    <string name="tvnombre">Nombre:</string>
+    <string name="tvfecha">Fecha:</string>
+    <string name="tvtelefono">Teléfono:</string>
+    <string name="remam">Eliminar amigo con la id:</string>
+    <string name="tvid">Id:</string>
+    <string name="editar">Editar</string>
+</resources>
