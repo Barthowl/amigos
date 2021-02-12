@@ -1,6 +1,7 @@
 package com.example.amigos.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,13 +27,13 @@ public class ObtenerContactos extends AppCompatActivity {
     Button btvolver;
     private ViewModelActivity viewModelActivity;
     private RecyclerView.Adapter adapter;
-    private List<Contacto> contacto = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewModelActivity = new ViewModelProvider(this).get(ViewModelActivity.class);
         setContentView(R.layout.activity_importar_contactos);
-        obtenerListaContactos();
+        init(viewModelActivity.guardarContactoLista());
         btvolver = findViewById(R.id.btvolver);
         btvolver.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,48 +44,7 @@ public class ObtenerContactos extends AppCompatActivity {
         });
     }
 
-    // llevar al repositorio
-    private void obtenerListaContactos() {
-        ContentResolver cr = getContentResolver();
-        Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-            String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-
-            Integer comprobarTelefono = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
-
-                String telefono = null;
-                if (comprobarTelefono > 0) {
-                    Cursor cp = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
-                    if (cp != null && cp.moveToFirst()) {
-                        telefono = cp.getString(cp.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        String tele = telefono.replaceAll("[(-)]","");
-                        String tel = tele.replaceAll("-","");
-                        String te = tel.replaceAll("\\s","");
-                        String nombre = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                        ContentResolver bd = getContentResolver();
-                        String fecha = null;
-                        Cursor bdc = bd.query(android.provider.ContactsContract.Data.CONTENT_URI, new String[] { ContactsContract.CommonDataKinds.Event.DATA }, android.provider.ContactsContract.Data.CONTACT_ID+" = "+id+" AND "+ ContactsContract.Data.MIMETYPE+" = '"+ ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE+"' AND "+ ContactsContract.CommonDataKinds.Event.TYPE+" = "+ ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY, null, android.provider.ContactsContract.Data.DISPLAY_NAME);
-                        if (bdc.getCount() > 0) {
-                            while (bdc.moveToNext()) {
-                                fecha = bdc.getString(0);
-                            }
-                        }
-                        Contacto c = new Contacto();
-                        c.setNombre(nombre);
-                        c.setFecha(fecha);
-                        c.setTelefono(te);
-                        contacto.add(c);
-                    }
-                }
-            } while (cursor.moveToNext());
-            cursor.close();
-            init();
-        }
-    }
-
-    private void init() {
+    private void init(List<Contacto> contacto) {
         RecyclerView mi_recycler = findViewById(R.id.rv);
         mi_recycler.addOnItemTouchListener(new RecyclerItemClickListener(this,mi_recycler, new RecyclerItemClickListener.OnItemClickListener() {
             @Override

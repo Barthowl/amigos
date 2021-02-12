@@ -70,4 +70,9 @@ public class ViewModelActivity extends AndroidViewModel {
         repository.updateFecha(fecha,id);
     }
 
+    public List<Contacto> guardarContactoLista() {
+        return repository.guardarContactoLista();
+    }
+
+
 }

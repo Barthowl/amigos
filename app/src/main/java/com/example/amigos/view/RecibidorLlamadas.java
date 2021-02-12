@@ -3,6 +3,9 @@ package com.example.amigos.view;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -21,6 +24,8 @@ public class RecibidorLlamadas extends BroadcastReceiver {
         private List<Amigo> lista = DataHolder.getInstance().lista;
 
         private Llamada l;
+
+
         @Override
         public void onReceive(Context context, Intent intent) {
             repository = new Repository(context);

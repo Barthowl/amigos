@@ -21,18 +21,21 @@ public class Repository {
     private Contacto currentContacto;
     private AmigoDao amigoDao;
     private LlamadaDao llamadaDao;
+    private GuardarObtencionLista guardar;
 
     private LiveData<List<Amigo>> liveAmigoList;
     private LiveData<List<Llamada>> liveLlamadaList;
     private LiveData<Long> liveLlamadaList2;
     private LiveData<List<ContadorLlamadas>> liveAmigoLlamadaList;
     private MutableLiveData<Long> liveAmigoInsertId = new MutableLiveData<>();
+    private LiveData<List<Contacto>> liveContactoList;
 
     public Repository(Context context) {
         AmigoDB db = AmigoDB.getDB(context);
         amigoDao = db.getAmigoDao();
         llamadaDao = db.getLlamadaDao();
         liveAmigoList = amigoDao.getAll();
+        this.guardar = new GuardarObtencionLista(context);
     }
 
     public Contacto getCurrentContacto() {
@@ -90,6 +93,7 @@ public class Repository {
         new Thread(){
             @Override
             public void run() {
+                llamadaDao.deleteLlamadas(id);
                 amigoDao.delete(id);
             }
         }.start();
@@ -121,5 +125,11 @@ public class Repository {
             }
         }.start();
     }
+
+    public List<Contacto> guardarContactoLista() {
+        return guardar.obtenerListaContactos();
+    }
+
+
 
 }

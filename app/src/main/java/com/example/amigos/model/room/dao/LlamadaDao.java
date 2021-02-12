@@ -22,6 +22,9 @@ public interface LlamadaDao {
     @Insert
     long insert(Llamada llamada);
 
+    @Query("delete from llamadas where idamigo = :id")
+    void deleteLlamadas(long id);
+
     @Query("select count(*) from llamadas where idamigo = :id")
     LiveData<Long> getLlamadas(long id);
 
